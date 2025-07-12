@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - db
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/postgres
+      - CELERY_BROKER_URL=redis://redis:6379/0
+  worker:
+    build: .
+    command: celery -A app.tasks worker --loglevel=info --concurrency=8
+    depends_on:
+      - redis
+      - db
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/postgres
+      - CELERY_BROKER_URL=redis://redis:6379/0
+  redis:
+    image: redis:7
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+  test:
+    build: .
+    command: pytest --cov=app --cov-report=term-missing
+    environment:
+      - PYTHONPATH=/app
