@@ -16,11 +16,6 @@ An asynchronous, Dockerized backend service built with FastAPI, PostgreSQL, Redi
 - ✅ Swagger/OpenAPI Docs — Interactive API docs at `http://localhost:8000/docs`
 - ✅ Dockerized Environment — One-command launch with Docker Compose
 - ✅ Unit Tests — Code coverage is 84% 
-
-> ⚠️ Not Implemented Yet:
-> - Job expiration and cleanup
-> - Pagination and filtering of past jobs
-
 ---
 
 ## Tech Stack
